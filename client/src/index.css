@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Design identity: "Ledger Pro" — a premium fintech SaaS dashboard.
+  Near-black ink navigation, clean neutral canvas, a confident
+  indigo-violet accent, semantic emerald/rose for gains and losses.
+  Single grotesk typeface used with a tight, confident scale rather
+  than a display/body pairing — numbers do the talking.
+*/
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Ink — near-black navigation surface, replaces the old warm-navy primary */
+  --color-ink-50: #F4F5F7;
+  --color-ink-100: #E4E6EA;
+  --color-ink-200: #C7CBD3;
+  --color-ink-300: #9AA0AC;
+  --color-ink-400: #6B7280;
+  --color-ink-500: #454B57;
+  --color-ink-600: #262B36;
+  --color-ink-700: #171B24;
+  --color-ink-800: #0F131B;
+  --color-ink-900: #0B0E14;
+
+  /* Primary accent — confident indigo-violet, replaces gold/navy */
+  --color-primary-50: #EEEEFE;
+  --color-primary-100: #D9D9FC;
+  --color-primary-200: #B4B4F9;
+  --color-primary-300: #8E8EF4;
+  --color-primary-400: #7071EF;
+  --color-primary-500: #5B5FEF;
+  --color-primary-600: #4A4DDB;
+  --color-primary-700: #3A3CB8;
+  --color-primary-800: #2C2E8F;
+  --color-primary-900: #1F2166;
+
+  /* Emerald — positive / savings / success */
+  --color-emerald-50: #ECFDF5;
+  --color-emerald-100: #D1FAE5;
+  --color-emerald-400: #34D399;
+  --color-emerald-500: #10B981;
+  --color-emerald-600: #059669;
+
+  /* Rose — negative / withdrawals / destructive */
+  --color-rose-50: #FEF1F2;
+  --color-rose-100: #FDDDE0;
+  --color-rose-400: #FB7185;
+  --color-rose-500: #F43F5E;
+  --color-rose-600: #E11D48;
+
+  /* Amber — warnings / deadlines */
+  --color-amber-50: #FFFBEB;
+  --color-amber-100: #FEF3C7;
+  --color-amber-400: #FBBF24;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+}
+
+@layer base {
+  :root {
+    --background: #F7F8FA;
+    --surface: #FFFFFF;
+    --surface-hover: #F4F5F9;
+    --foreground: #171B24;
+    --foreground-muted: #6B7280;
+    --border-hairline: #E5E7EB;
+    --shadow-color: 220 20% 40%;
+  }
+
+  .dark {
+    --background: #0B0E14;
+    --surface: #171B24;
+    --surface-hover: #1F2430;
+    --foreground: #F4F5F7;
+    --foreground-muted: #9AA0AC;
+    --border-hairline: #262B36;
+    --shadow-color: 0 0% 0%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #B4B4F9;
+    color: #0B0E14;
+  }
+
+  .dark ::selection {
+    background-color: #3A3CB8;
+    color: #F4F5F7;
+  }
+
+  /* Tabular figures on every amount so numbers never wobble mid-animation */
+  .font-numeric {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Card surface — the base premium card, soft shadow instead of hairline-only */
+  .card-surface {
+    background-color: var(--surface);
+    border: 1px solid var(--border-hairline);
+    box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.04), 0 1px 3px hsl(var(--shadow-color) / 0.06);
+  }
+
+  .card-surface-hover {
+    transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1), border-color 0.25s ease;
+  }
+  .card-surface-hover:hover {
+    box-shadow: 0 12px 32px -8px hsl(var(--shadow-color) / 0.14), 0 4px 12px hsl(var(--shadow-color) / 0.08);
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--border-hairline) 60%, #5B5FEF 40%);
+  }
+  @media (hover: none) {
+    .card-surface-hover:hover { transform: none; }
+  }
+
+  /* Glass panel for hero / ambient overlays */
+  .glass-panel {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 82%, transparent), color-mix(in srgb, var(--surface) 68%, transparent));
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    border: 1px solid color-mix(in srgb, var(--border-hairline) 70%, white 30%);
+  }
+
+  /* Ambient mesh background */
+  .ambient-mesh {
+    background:
+      radial-gradient(600px 320px at 12% -8%, rgba(91,95,239,0.16), transparent 60%),
+      radial-gradient(520px 300px at 92% 8%, rgba(16,185,129,0.12), transparent 60%),
+      radial-gradient(700px 420px at 50% 115%, rgba(142,142,244,0.14), transparent 62%);
+  }
+  .dark .ambient-mesh {
+    background:
+      radial-gradient(600px 320px at 12% -8%, rgba(91,95,239,0.28), transparent 60%),
+      radial-gradient(520px 300px at 92% 8%, rgba(16,185,129,0.16), transparent 60%),
+      radial-gradient(700px 420px at 50% 115%, rgba(91,95,239,0.18), transparent 62%);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(48px);
+    pointer-events: none;
+    opacity: 0.55;
+  }
+
+  /* Focus ring, consistent app-wide */
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    outline: 2px solid #5B5FEF;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  /* Gradient accent — used sparingly, on the primary CTA and hero balance card only */
+  .gradient-primary {
+    background-image: linear-gradient(135deg, #5B5FEF 0%, #7071EF 50%, #8E8EF4 100%);
+  }
+  .gradient-primary-hover {
+    background-image: linear-gradient(135deg, #4A4DDB 0%, #5B5FEF 55%, #7071EF 100%);
+  }
+  .gradient-mesh-hero {
+    background:
+      linear-gradient(135deg, #4A4DDB 0%, #5B5FEF 42%, #8E8EF4 78%, #B4B4F9 100%);
+  }
+  .gradient-text {
+    background: linear-gradient(120deg, #5B5FEF, #8E8EF4 60%, #34D399 110%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .btn-press {
+    transition: transform 0.15s cubic-bezier(0.22,1,0.36,1), box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  .btn-press:hover { filter: brightness(1.04); }
+  .btn-press:active { transform: scale(0.97); }
+
+  /* Subtle skeleton shimmer for loading states */
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface-hover) 25%, var(--border-hairline) 37%, var(--surface-hover) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Entrance utilities */
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-rise { animation: rise-in 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+  .animate-rise-1 { animation: rise-in 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+  .animate-rise-2 { animation: rise-in 0.45s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+  .animate-rise-3 { animation: rise-in 0.45s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+  /* Custom scrollbar */
+  .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background: var(--border-hairline);
+    border-radius: 8px;
+  }
+  .thin-scroll::-webkit-scrollbar-thumb:hover { background: #9AA0AC; }
+  .thin-scroll { scrollbar-width: thin; scrollbar-color: var(--border-hairline) transparent; }
+}

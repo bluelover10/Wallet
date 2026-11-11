@@ -1,0 +1,16 @@
+{
+  "name": "personal-savings-tracker",
+  "version": "1.0.0",
+  "description": "MERN Stack Personal Savings Tracker",
+  "scripts": {
+    "start": "npm start --prefix server",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix client",
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
